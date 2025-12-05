@@ -8,6 +8,7 @@ import { TestimonialRoutes } from '../modules/Testimonials/testimonial.route';
 import { SkillRoutes } from '../modules/Skills/skill.route';
 import { StatsRoutes } from '../modules/Stats/stats.route';
 import { BlogRoutes } from '../modules/Blogs/blog.route';
+import { TeamRoutes } from '../modules/Team/team.route';
 
 const middlewareRoutes = Router();
 
@@ -47,6 +48,10 @@ const router = [
   {
     path: '/stats',
     routes: StatsRoutes,
+  },
+  {
+    path: '/teams',
+    routes: TeamRoutes,
   }
 ];
 
