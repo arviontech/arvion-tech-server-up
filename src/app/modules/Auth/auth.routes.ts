@@ -39,6 +39,8 @@ router.post(
   AuthController.login,
 );
 
+router.post('/logout', AuthController.logout);
+
 // router.post(
 router.post('/verify-email', AuthController.verifyEmail);
 //   validateData(AuthValidation.otpSchemaValidation),

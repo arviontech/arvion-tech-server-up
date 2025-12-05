@@ -2,6 +2,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import { AuthService } from './auth.service';
+import config from '../../config';
 import {
   generateHateoasLinks,
   generateLoginLinks,
@@ -35,11 +36,32 @@ const register = catchAsync(async (req, res) => {
 const login = catchAsync(async (req, res) => {
   const result = await AuthService.login(req.body);
   const links = generateRegisterLinks();
+
+  // Set httpOnly cookies
+  res.cookie('accessToken', result.accessToken, {
+    httpOnly: true,
+    secure: config.node_env === 'production',
+    sameSite: config.node_env === 'production' ? 'none' : 'lax',
+    maxAge: 15 * 60 * 1000, // 15 minutes
+  });
+
+  res.cookie('refreshToken', result.refreshToken, {
+    httpOnly: true,
+    secure: config.node_env === 'production',
+    sameSite: config.node_env === 'production' ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     links: links,
     message: 'Logged in successfully',
-    data: result,
+    data: {
+      user: {
+        email: req.body.email,
+        message: 'Authentication successful',
+      },
+    },
   });
 });
 
@@ -147,9 +169,23 @@ const verifyEmail = catchAsync(async (req, res) => {
   });
 });
 
+//LOGOUT
+const logout = catchAsync(async (req, res) => {
+  // Clear cookies
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: 'Logged out successfully',
+    data: null,
+  });
+});
+
 export const AuthController = {
   register,
   login,
+  logout,
 
   //   googleLogin,
   //   generateToken,
