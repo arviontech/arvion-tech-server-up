@@ -42,7 +42,7 @@ const login = catchAsync(async (req, res) => {
     httpOnly: true,
     secure: config.node_env === 'production',
     sameSite: config.node_env === 'production' ? 'none' : 'lax',
-    maxAge: 15 * 60 * 1000, // 15 minutes
+    maxAge: 30 * 60 * 1000, // 15 minutes
   });
 
   res.cookie('refreshToken', result.refreshToken, {
@@ -57,6 +57,7 @@ const login = catchAsync(async (req, res) => {
     links: links,
     message: 'Logged in successfully',
     data: {
+      accessToken: result.accessToken,
       user: {
         email: req.body.email,
         message: 'Authentication successful',

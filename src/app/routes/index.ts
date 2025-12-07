@@ -9,6 +9,10 @@ import { SkillRoutes } from '../modules/Skills/skill.route';
 import { StatsRoutes } from '../modules/Stats/stats.route';
 import { BlogRoutes } from '../modules/Blogs/blog.route';
 import { TeamRoutes } from '../modules/Team/team.route';
+import { ContactInfoRoutes } from '../modules/contactInfo/contactInfo.route';
+import { SubscriptionRoutes } from '../modules/subscription/subscription.route';
+import { SocialLinksRoutes } from '../modules/socialLinks/socialLinks.route';
+import { PackageRoutes } from '../modules/packages/packages.route';
 
 const middlewareRoutes = Router();
 
@@ -52,6 +56,22 @@ const router = [
   {
     path: '/teams',
     routes: TeamRoutes,
+  },
+  {
+    path: '/contact-info',
+    routes: ContactInfoRoutes,
+  },
+  {
+    path: '/subscriptions',
+    routes: SubscriptionRoutes,
+  },
+  {
+    path: '/social-links',
+    routes: SocialLinksRoutes,
+  },
+  {
+    path: '/packages',
+    routes: PackageRoutes,
   }
 ];
 

@@ -4,7 +4,6 @@ import { ILogin, IRegister } from './auth.interface';
 import httpStatus, { status } from 'http-status';
 import bcrypt from 'bcryptjs';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { sendEmail } from '../../utils/sendEmail';
 import { verifyEmailHtml } from '../../view/verifyEmail';
 // import { resetHtmlBody } from '../../view/resetPassword'
 import { Customers } from '../Customers/customers.model';
@@ -14,6 +13,7 @@ import { jwtHelper } from '../../utils/jwtHelper';
 import { UserRole } from '../User/user.contant';
 import mongoose from 'mongoose';
 import { IUser } from '../User/user.interface';
+import { sendEmailService } from '../../utils/sendEmail';
 
 // import { optgenerateHtmlSendForUser } from "../../view/otphtml";
 // import crypto from "crypto";
@@ -86,7 +86,7 @@ const registerUser = async (password: string, payload: IRegister) => {
       verifyUILink,
     );
 
-    await sendEmail(
+    await sendEmailService(
       createdUser[0].email,
       emailHtml,
       'Verify Your Email - Taskopedia',
