@@ -4,10 +4,10 @@ import auth from '../../middleware/auth';
 
 const router = Router();
 
-router.post('/', auth('admin'), PackageController.createPackage);
+router.post('/', auth('admin', 'superAdmin'), PackageController.createPackage);
 router.get('/', PackageController.getAllPackages);
 router.get('/:id', PackageController.getPackageById);
-router.put('/:id', auth('admin'), PackageController.updatePackage);
-router.delete('/:id', auth('admin'), PackageController.deletePackage);
+router.put('/:id', auth('admin', 'superAdmin'), PackageController.updatePackage);
+router.delete('/:id', auth('admin', 'superAdmin'), PackageController.deletePackage);
 
 export const PackageRoutes = router;

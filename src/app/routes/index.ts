@@ -9,6 +9,7 @@ import { SkillRoutes } from '../modules/Skills/skill.route';
 import { StatsRoutes } from '../modules/Stats/stats.route';
 import { BlogRoutes } from '../modules/Blogs/blog.route';
 import { TeamRoutes } from '../modules/Team/team.route';
+import { ContactRoutes } from '../modules/Contact/contact.route';
 import { ContactInfoRoutes } from '../modules/contactInfo/contactInfo.route';
 import { SubscriptionRoutes } from '../modules/subscription/subscription.route';
 import { SocialLinksRoutes } from '../modules/socialLinks/socialLinks.route';
@@ -56,6 +57,10 @@ const router = [
   {
     path: '/teams',
     routes: TeamRoutes,
+  },
+  {
+    path: '/contact',
+    routes: ContactRoutes,
   },
   {
     path: '/contact-info',

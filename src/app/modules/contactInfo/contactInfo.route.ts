@@ -1,11 +1,13 @@
 import express from 'express';
 import { ContactInfoController } from './contactInfo.controller';
+import auth from '../../middleware/auth';
+import { UserRole } from '../User/user.contant';
 
 const router = express.Router();
 
-router.post('/', ContactInfoController.createContactInfo);
+router.post('/', auth(UserRole.admin, UserRole.superAdmin), ContactInfoController.createContactInfo);
 router.get('/', ContactInfoController.getContactInfo);
-router.patch('/:id', ContactInfoController.updateContactInfo);
-router.delete('/:id', ContactInfoController.deleteContactInfo);
+router.patch('/:id', auth(UserRole.admin, UserRole.superAdmin), ContactInfoController.updateContactInfo);
+router.delete('/:id', auth(UserRole.admin, UserRole.superAdmin), ContactInfoController.deleteContactInfo);
 
 export const ContactInfoRoutes = router;

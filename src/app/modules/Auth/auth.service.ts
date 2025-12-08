@@ -116,32 +116,6 @@ const login = async (payload: ILogin) => {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  // Check user role and fetch appropriate profile
-  let profileData;
-  if (user.role === UserRole.admin || user.role === UserRole.superAdmin) {
-    const admin = await Admin.findOne({ user: user._id });
-    if (!admin) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Admin profile not found');
-    }
-    profileData = {
-      fullName: admin.fullName,
-      profileImage: admin.profileImage || '',
-    };
-  } else {
-    const customer = await Customers.findOne({ user: user._id });
-    if (!customer) {
-      throw new AppError(httpStatus.NOT_FOUND, 'Customer not found');
-    }
-    profileData = {
-      fullName: customer.fullName,
-      profileImage: customer.profileImage || '',
-    };
-  }
-
-  if (!user.isVerified) {
-    throw new AppError(httpStatus.UNAUTHORIZED, 'User has not verified yet');
-  }
-
   const isPasswordMatched = await bcrypt.compare(
     payload.password,
     user.password,
@@ -154,8 +128,6 @@ const login = async (payload: ILogin) => {
     _id: user._id,
     email: user.email,
     role: user.role,
-    fullName: profileData.fullName,
-    profileImage: profileData.profileImage,
   };
 
   const accessToken = jwtHelper.generateToken(
